@@ -1,0 +1,105 @@
+{% extends "layout.html" %}
+{% block content %}
+
+
+<div class="check">
+    <section class="card">
+        <div class="wrap">
+            <div class="wrap-txt">
+                <h1 id="problem"></h1>
+            </div>
+            <div class="wrap-img">
+                <i class="fas fa-volume-up" id="PlayButton" style="display: none;"></i>
+                <audio id="audio"></audio>
+            </div>
+        </div>
+        <p id="solve" style="visibility: hidden;"></p>
+    </section>
+    <input type="button" id="CheckButton" value="Check" style="display: none;">
+    <input type="button" id="NextButton" value="Next" style="display: none;">
+    <input id="startButton" type="button" value="Start" onclick="OnStartButtonClick();">
+    <input type="button" id="FinishButton" value="Finish" style="display: none;" onclick="history.back()">
+</div>
+
+
+<script>
+    const startButton = document.getElementById("startButton");
+    const checkButton = document.getElementById("CheckButton");
+    const nextButton = document.getElementById("NextButton");
+    const finishButton = document.getElementById("FinishButton");
+    const Problem = document.getElementById("problem");
+    const Solve = document.getElementById("solve");
+    const playButton = document.getElementById("PlayButton");
+    
+
+    let count = 0;
+    let list_data = {{ word_list | tojson }};
+
+    function OnStartButtonClick(){
+        // スタートボタンを隠す
+        startButton.style.display="none";
+
+        // 問題と正解を代入
+        Problem.textContent = list_data[count][0];
+        Solve.textContent = list_data[count][1];
+
+        // 確認ボタンの表示
+        checkButton.style.display="";
+
+        // 音声ボタンの表示
+        playButton.style.display="";
+
+    }
+
+    checkButton.addEventListener('click', function(){
+        // 正解の表示 
+        Solve.style.visibility="";
+
+        // 確認ボタンを隠す
+        checkButton.style.display="none";
+
+        // 次へボタンの表示
+        nextButton.style.display="";
+        
+
+    }, false);
+
+    nextButton.addEventListener('click', function(){
+        if(count < Number({{ dict_length | tojson }}) - 1){
+            // 問題を一つ進める
+            count += 1;
+
+            // 問題と正解を代入
+            Problem.textContent = list_data[count][0];
+            Solve.textContent = list_data[count][1];
+
+            // 確認ボタンの表示
+            checkButton.style.display="";
+        }else{
+            // 終了ボタンの表示
+            finishButton.style.display="";
+
+            // 問題を隠す
+            Problem.style.visibility="hidden";
+
+            // 再生ボタンを隠す
+            playButton.style.display="none";
+
+        }
+
+        // 正解を隠す
+        Solve.style.visibility="hidden";
+
+        // 次へボタンを隠す
+        nextButton.style.display="none";
+        
+    }, false);
+
+    playButton.addEventListener('click', function(){
+        audio.src = "pronunciation/" + list_data[count][0] + ".mp3";
+        audio.play();
+    });
+
+</script>
+
+{% endblock %}

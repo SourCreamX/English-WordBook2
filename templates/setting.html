@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="setting">
+    <h2>TOIEC 英単語</h2>
+    <form method="post">
+        <div class="chapter">
+            <label>・Chapter</label><br>
+            <div class="select-div">
+                <select name="chapter">
+                    <option value="1">まずはこれから300語</option>
+                    <option value="2">基礎の300語</option>
+                    <option value="3">必須の300語</option>
+                    <option value="4">600点突破の300語</option>
+                    <option value="5">700点突破の300語</option>
+                    <option value="6">800点突破の300語</option>
+                    <option value="7">900点突破の200語</option>
+                    <option value="all">ALL</option>
+                </select>
+            </div>
+        </div>
+        <div class="select">
+            <label >・並び順</label><br>
+            <div class="select-div">
+                <select name="sort">
+                    <option value="random">ランダム</option>
+                    <option value="default">デフォルト</option>
+                </select>
+            </div>
+        </div>
+        <div class="number">
+            <label>・学習したい範囲</label>
+            <div class="number-div">
+                <input type="number" name="min" value="1">
+                <span>~</span>
+                <input type="number" name="max" value="100">
+            </div>
+        </div>
+        <div class="setting-submit-div">
+            <input class="setting-submit" type="submit" value="スタート">
+        </div>
+    </form>
+</div>
+
+{% endblock %}
